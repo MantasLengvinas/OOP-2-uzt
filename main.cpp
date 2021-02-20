@@ -1,10 +1,12 @@
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <string>
 #include <ctime>
 #include <random>
 #include <algorithm>
 #include <vector>
+#include <fstream>
 
 using std::cout;
 using std::cin;
@@ -20,7 +22,10 @@ struct _student {
 
 };
 
+const char file[] = "students1000000.txt"; //Failo pavadinimas
+
 void addStudent(vector<_student> &Students);
+void readFile(vector<_student> &Students);
 
 void checkInput(char& choice) {
 
@@ -69,21 +74,29 @@ int main(){
     char choice;
     vector<_student> Students;
 
-    while(true){
+    cout << "Duomenys norite irasyti patys (T) ar skaityti is failo (N)?"; cin >> choice;
+    checkInput(choice);
 
-        addStudent(Students);
+    if(tolower(choice) == 't'){
+        while(true){
 
-        cout << "Ar norite prideti dar 1 studenta? (t/n) "; cin >> choice;
-        cin.ignore();
-        checkInput(choice);
+            addStudent(Students);
 
-        if(tolower(choice) == 'n'){
-            break;
+            cout << "Ar norite prideti dar 1 studenta? (t/n) "; cin >> choice;
+            cin.ignore();
+            checkInput(choice);
+
+            if(tolower(choice) == 'n'){
+                break;
+            }
+            else if(tolower(choice) == 't'){
+                continue;
+            }
+
         }
-        else if(tolower(choice) == 't'){
-            continue;
-        }
-
+    }
+    else if(tolower(choice) == 'n'){
+        readFile(Students);
     }
 
     cout << "Duomenu irasymas sekmingas." << '\n' << "Norite matyti vidurki (t) ar mediana (n)? "; cin >> choice;
@@ -144,6 +157,51 @@ int main(){
     }
 
     return 0;
+}
+
+void readFile(vector<_student> &Students){
+
+    std::ifstream input(file);
+
+    if(!input){
+        cout << "Nurodytas failas neegzistuoja!" <<endl;
+        exit(1);
+    }
+
+    _student student;
+
+    string line;
+    int val;
+    vector<int> grades;
+
+    input.ignore(255, '\n');
+
+    while(true){
+
+        input >> student.fname >> student.lname;
+        getline(input, line);
+        std::istringstream str(line);
+
+        int val;
+        while(str >> val){
+            grades.push_back(val);
+        }
+
+        grades.pop_back();
+        student.exam = val;
+        student.hw = grades;
+
+        Students.push_back(student);
+        grades.clear();
+
+        if(input.eof()){
+            break;
+        }
+
+    }
+
+    input.close();
+
 }
 
 void addStudent(vector<_student> &Students) {
