@@ -35,5 +35,5 @@
 	
 ## Versijos
 
-  * [v0.1](https://github.com/MantasLengvinas/OOP-2-uzd/releases/tag/v0.1) Įvykdyti v0.1 reikalavimai
-  * [v0.2](https://github.com/MantasLengvinas/OOP-2-uzd/releases/tag/v0.2) Įvykdyti v0.2 reikalavimai - galimybė skaityti iš failo
+  * [v0.1](https://github.com/MantasLengvinas/OOP-2-uzt/releases/tag/v0.1) Įvykdyti v0.1 reikalavimai
+  * [v0.2](https://github.com/MantasLengvinas/OOP-2-uzt/releases/tag/v0.2) Įvykdyti v0.2 reikalavimai - galimybė skaityti iš failo
