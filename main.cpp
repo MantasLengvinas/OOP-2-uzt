@@ -78,6 +78,7 @@ int main(){
     checkInput(choice);
 
     if(tolower(choice) == 't'){
+        cin.ignore();
         while(true){
 
             addStudent(Students);
