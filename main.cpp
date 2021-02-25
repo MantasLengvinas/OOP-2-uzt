@@ -22,10 +22,17 @@ struct _student {
 
 };
 
-const char file[] = "students1000000.txt"; //Failo pavadinimas
+const char file[] = "kursiokai.txt"; //Duomenu failo pavadinimas
+const char outputFile[] = "output.txt"; //Rezultatu failo pavadinimas
 
 void addStudent(vector<_student> &Students);
 void readFile(vector<_student> &Students);
+
+bool _check(_student &a, _student &b){
+
+    return a.lname < b.lname;
+
+}
 
 void checkInput(char& choice) {
 
@@ -100,11 +107,15 @@ int main(){
         readFile(Students);
     }
 
+    std::sort(Students.begin(), Students.end(), _check);
+
+    std::ofstream output(outputFile);
+
     cout << "Duomenu irasymas sekmingas." << '\n' << "Norite matyti vidurki (t) ar mediana (n)? "; cin >> choice;
     checkInput(choice);
 
     if(tolower(choice) == 't'){
-        std::cout << std::left
+        output << std::left
 			<< std::setw(20) << "Pavarde"
 			<< std::setw(15) << "Vardas"
 			<< std::setw(10) << "Galutinis (Vid.)"
@@ -121,7 +132,7 @@ int main(){
 			avg /= Students[i].hw.size();
 			avg = 0.4 * avg + 0.6 * Students[i].exam;
 			
-			std::cout << std::left
+			output << std::left
 				<< std::setw(20) << Students[i].lname
 				<< std::setw(15) << Students[i].fname
 				<< std::setw(15) << std::setprecision(2) << avg
@@ -130,7 +141,7 @@ int main(){
 		}
     }
     else if (tolower(choice) == 'n'){
-         std::cout << std::left
+         output << std::left
 			<< std::setw(20) << "Pavarde"
 			<< std::setw(15) << "Vardas"
 			<< std::setw(10) << "Galutinis (Med.)"
@@ -139,16 +150,16 @@ int main(){
 			<< std::endl;
 
 		for (int i = 0; i < Students.size(); i++){
-			std::sort(Students[i].hw.begin(), Students[i].hw.end());
 
 			double median = 0;
+            std::sort(Students[i].hw.begin(), Students[i].hw.end());
 
 			if (Students[i].hw.size() % 2 == 1)
 				median = Students[i].hw[Students[i].hw.size() / 2];
 
 			else median = (Students[i].hw[Students[i].hw.size() / 2] + Students[i].hw[Students[i].hw.size() / 2 - 1]) / 2;
 
-			std::cout << std::left
+			output << std::left
 				<< std::setw(20) << Students[i].lname
 				<< std::setw(15) << Students[i].fname
 				<< std::setw(15) << std::setprecision(2) << median
@@ -156,6 +167,8 @@ int main(){
 
 		}
     }
+
+    output.close();
 
     return 0;
 }
